@@ -218,7 +218,7 @@ sed 's+forwarding_link+'$send_link'+g' template.php > index.php
 
 start() {
   # Set the default subdomain to 'webcam777'
-  subdomain="webcam777"
+  subdomain="7777777webcam7777777777"
 
   # Call server function and proceed without asking for user input
   server
